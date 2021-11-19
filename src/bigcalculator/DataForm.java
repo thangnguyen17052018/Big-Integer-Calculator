@@ -5,12 +5,21 @@
  */
 package bigcalculator;
 
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.Statement;
+//import com.mysql.jdbc.Connection;
+//import com.mysql.jdbc.Statement;
+import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Toolkit;
+import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Vector;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -20,7 +29,59 @@ import javax.swing.table.DefaultTableModel;
  */
 public class DataForm extends javax.swing.JFrame {
 
+    private MainCalc previousMain;
+   
     public DataForm() {
+        initComponents();
+        Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\DELL OS\\Desktop\\BigCalculator\\src\\bigcalculator\\img\\iconframe1.png");    
+        setIconImage(icon);    
+        setTitle("BigInteger Calculator");
+        Connection conn = null;
+        Statement st = null;
+        ResultSet rs = null;
+       try {
+        String dbURL = "jdbc:mysql://localhost/big_calculator";
+        String username = "root";
+        String password = "";
+        Class.forName("com.mysql.jdbc.Driver");
+        conn = (Connection) DriverManager.getConnection(dbURL, username, password);
+        if (conn != null) {
+         System.out.println("Kết nối thành công");
+        }
+        // Câu lệnh xem dữ liệu
+        String sql = "select * from DATACALCULATE";
+        // Tạo đối tượng thực thi câu lệnh Select
+        st = (Statement) conn.createStatement();
+        // Thực thi
+        rs = st.executeQuery(sql);
+        Vector data = null;
+        tblModel.setRowCount(0);
+        // Nếu không có thông tin không tồn tại
+        if (rs.isBeforeFirst() == false) {
+         JOptionPane.showMessageDialog(this, "Chưa có thông tin!");
+         return;
+        }
+        // Trong khi chưa hết dữ liệu
+        while (rs.next()) {
+         data = new Vector();
+         data.add(rs.getInt("ID"));
+         data.add(rs.getString("m"));
+         data.add(rs.getString("n"));
+         data.add(rs.getString("type"));
+         data.add(rs.getString("result"));
+         data.add(rs.getString("remainder"));
+         data.add(rs.getTimestamp("date_calc"));
+         // Thêm một dòng vào table model
+         tblModel.addRow(data);
+        }
+        jTable1.setModel(tblModel); // Thêm dữ liệu vào table
+       } catch (Exception e) {
+         e.printStackTrace();
+       }
+    }
+    
+    public DataForm(MainCalc c) {
+        this.previousMain = c;
         initComponents();
         Connection conn = null;
         Statement st = null;
@@ -29,6 +90,7 @@ public class DataForm extends javax.swing.JFrame {
         String dbURL = "jdbc:mysql://localhost/big_calculator";
         String username = "root";
         String password = "";
+        Class.forName("com.mysql.jdbc.Driver");
         conn = (Connection) DriverManager.getConnection(dbURL, username, password);
         if (conn != null) {
          System.out.println("Kết nối thành công");
@@ -108,6 +170,11 @@ public class DataForm extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -133,10 +200,20 @@ public class DataForm extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Segoe UI Semilight", 1, 14)); // NOI18N
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bigcalculator/img/icons8-checkmark-48.png"))); // NOI18N
         jButton2.setText("Chọn");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setFont(new java.awt.Font("Segoe UI Semilight", 1, 14)); // NOI18N
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bigcalculator/img/icons8-delete-bin-48.png"))); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bigcalculator/img/delete-database.png"))); // NOI18N
         jButton3.setText("Xóa");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -178,55 +255,85 @@ public class DataForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-//        Connection conn = null;
-//        Statement st = null;
-//        ResultSet rs = null;
-//       try {
-//        String dbURL = "jdbc:mysql://localhost/big_calculator";
-//        String username = "root";
-//        String password = "";
-//        conn = (Connection) DriverManager.getConnection(dbURL, username, password);
-//        if (conn != null) {
-//         System.out.println("Kết nối thành công");
-//        }
-//        // Câu lệnh xem dữ liệu
-//        String sql = "select * from DATACALCULATE";
-//        // Tạo đối tượng thực thi câu lệnh Select
-//        st = (Statement) conn.createStatement();
-//        // Thực thi
-//        rs = st.executeQuery(sql);
-//        Vector data = null;
-//        tblModel.setRowCount(0);
-//        // Nếu không có thông tin không tồn tại
-//        if (rs.isBeforeFirst() == false) {
-//         JOptionPane.showMessageDialog(this, "Chưa có thông tin!");
-//         return;
-//        }
-//        // Trong khi chưa hết dữ liệu
-//        while (rs.next()) {
-//         data = new Vector();
-//         data.add(rs.getInt("ID"));
-//         data.add(rs.getString("m"));
-//         data.add(rs.getString("n"));
-//         data.add(rs.getString("type"));
-//         data.add(rs.getString("result"));
-//         data.add(rs.getTimestamp("date_calc"));
-//         // Thêm một dòng vào table model
-//         tblModel.addRow(data);
-//        }
-//        jTable1.setModel(tblModel); // Thêm dữ liệu vào table
-//       } catch (Exception e) {
-//         e.printStackTrace();
-//       }
+        this.previousMain.setVisible(true);
+        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        System.out.println(jTable1.getSelectedRow());
+    }//GEN-LAST:event_jTable1MouseClicked
 
-    public void connectDatabase(){
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int indexRow = jTable1.getSelectedRow();
+        if (indexRow != -1){
+            String number1 = (String)tblModel.getValueAt(indexRow, 1);
+            String number2 = (String)tblModel.getValueAt(indexRow, 2);
+            String operator = (String)tblModel.getValueAt(indexRow, 3);
+            this.previousMain = new MainCalc(number1, number2, operator);
+            this.previousMain.setVisible(true);
+        this.setVisible(false);
+        this.dispose();
+        } else {
+            JFrame f=new JFrame();
+            JOptionPane.showMessageDialog(f,"Vui lòng chọn dòng dữ liệu bạn cần nhập từ CSDL");  
+        }
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        
+        Connection conn = null;
+        Statement st = null;
+        ResultSet rs = null;
+        int indexRow = jTable1.getSelectedRow();
+        int index = (int)tblModel.getValueAt(indexRow, 0);
+        if (indexRow != -1){
+            try {
+              // create the mysql database connection
+                String dbURL = "jdbc:mysql://localhost/big_calculator";
+                String username = "root";
+                String password = "";
+                Class.forName("com.mysql.jdbc.Driver");
+                conn = (Connection) DriverManager.getConnection(dbURL, username, password);
+                if (conn != null) {
+                 System.out.println("Kết nối thành công");
+                }
+
+                // create the mysql delete statement.
+                // i'm deleting the row where the id is "3", which corresponds to my
+                // "Barney Rubble" record.
+                String query = "delete from datacalculate where ID=" + index;
+                
+                PreparedStatement preparedStmt = conn.prepareStatement(query);
+
+                
+                // execute the preparedstatement
+                preparedStmt.executeUpdate();
+                JFrame f=new JFrame();
+                JOptionPane.showMessageDialog(f,"Bạn đã xóa phép tính có ID=" + index);  
+                System.out.println(query);
+                tblModel.removeRow(indexRow);
+                conn.commit();
+                conn.close();
+            }
+            catch (Exception e){
+              System.out.println(e);
+            }
+        } else {
+            JFrame f=new JFrame();
+            JOptionPane.showMessageDialog(f,"Vui lòng chọn dòng dữ liệu bạn cần nhập từ CSDL");  
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+
+    public void connectDatabase() throws ClassNotFoundException{
         Connection conn = null;
         String dbURL = "jdbc:mysql://localhost/big_calculator";
         String username = "root";
         String password = "";
         try {
+            Class.forName("com.mysql.jdbc.Driver");
             conn = (Connection) DriverManager.getConnection(dbURL, username, password);
             if (conn != null) {
                 System.out.println("Kết nối thành công");

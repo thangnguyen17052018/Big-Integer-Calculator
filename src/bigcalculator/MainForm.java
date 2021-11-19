@@ -279,14 +279,9 @@ public class MainForm extends javax.swing.JFrame {
     private void beginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_beginBtnActionPerformed
         MainCalc maincalc1 = new MainCalc();
         this.setVisible(false);
+        maincalc1.pack();
+        maincalc1.setLocationRelativeTo(null);
         maincalc1.setVisible(true);
-        Dimension windowSize = getSize();
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        Point centerPoint = ge.getCenterPoint();
-
-        int dx = centerPoint.x - windowSize.width / 2;
-        int dy = centerPoint.y - windowSize.height / 2;
-        maincalc1.setLocation(dx, dy);
         Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\DELL OS\\Desktop\\BigCalculator\\src\\bigcalculator\\img\\iconframe1.png");    
         maincalc1.setIconImage(icon);    
         maincalc1.setTitle("BigInteger Calculator");

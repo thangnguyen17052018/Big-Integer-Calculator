@@ -5,8 +5,13 @@
  */
 package bigcalculator;
 
+import java.awt.Dimension;
 import java.awt.FileDialog;
 import java.awt.Frame;
+import java.awt.GraphicsEnvironment;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,18 +21,51 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author DELL OS
  */
 public class MainCalc extends javax.swing.JFrame {
-
+    
+    public Calculation calc;
     /**
      * Creates new form MainCalc
      */
     public MainCalc() {
         initComponents();
+        calc = new Calculation();
+        jRadioButton1.setActionCommand("+");
+        jRadioButton2.setActionCommand("-");
+        jRadioButton3.setActionCommand("x");
+        jRadioButton4.setActionCommand(":");
+        jRadioButton1.setSelected(true);
+        Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\DELL OS\\Desktop\\BigCalculator\\src\\bigcalculator\\img\\iconframe1.png");    
+        setIconImage(icon);    
+        setTitle("BigInteger Calculator");
+//        System.out.println(buttonGroup1.getSelection().getActionCommand());
+    }
+    
+    public MainCalc(String number1, String number2, String operator) {
+        initComponents();
+        calc = new Calculation();
+        jRadioButton1.setActionCommand("+");
+        jRadioButton2.setActionCommand("-");
+        jRadioButton3.setActionCommand("x");
+        jRadioButton4.setActionCommand(":");
+        if (jRadioButton1.getActionCommand().equals(operator))
+            jRadioButton1.setSelected(true);
+        else if (jRadioButton2.getActionCommand().equals(operator))
+                jRadioButton2.setSelected(true);
+            else if (jRadioButton3.getActionCommand().equals(operator))
+                    jRadioButton3.setSelected(true);
+                else
+                    jRadioButton4.setSelected(true);
+        number1Txt.setText(number1);
+        number2Txt.setText(number2);
+//        System.out.println(buttonGroup1.getSelection().getActionCommand());
     }
 
     /**
@@ -55,6 +93,7 @@ public class MainCalc extends javax.swing.JFrame {
         jRadioButton3 = new javax.swing.JRadioButton();
         jRadioButton4 = new javax.swing.JRadioButton();
         jButton4 = new javax.swing.JButton();
+        refreshBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,6 +103,11 @@ public class MainCalc extends javax.swing.JFrame {
         calcBtn.setFont(new java.awt.Font("Segoe UI Light", 1, 14)); // NOI18N
         calcBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bigcalculator/img/calc666666.png"))); // NOI18N
         calcBtn.setText("Tính");
+        calcBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                calcBtnActionPerformed(evt);
+            }
+        });
 
         inputFileBtn.setFont(new java.awt.Font("Segoe UI Light", 1, 14)); // NOI18N
         inputFileBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bigcalculator/img/txt.png"))); // NOI18N
@@ -77,14 +121,23 @@ public class MainCalc extends javax.swing.JFrame {
         inputDbBtn.setFont(new java.awt.Font("Segoe UI Light", 1, 14)); // NOI18N
         inputDbBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bigcalculator/img/icons8-database-48.png"))); // NOI18N
         inputDbBtn.setText("Nhập từ CSDL");
+        inputDbBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputDbBtnActionPerformed(evt);
+            }
+        });
 
-        jPanel1.setBackground(new java.awt.Color(204, 255, 204));
+        jPanel1.setBackground(new java.awt.Color(218, 238, 239));
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         number1Txt.setColumns(20);
+        number1Txt.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         number1Txt.setRows(5);
         jScrollPane1.setViewportView(number1Txt);
+        number1Txt.getAccessibleContext().setAccessibleDescription("");
 
         number2Txt.setColumns(20);
+        number2Txt.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         number2Txt.setRows(5);
         jScrollPane2.setViewportView(number2Txt);
 
@@ -94,23 +147,24 @@ public class MainCalc extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
         jLabel3.setText("Số B");
 
-        jPanel2.setBackground(new java.awt.Color(204, 204, 255));
+        jPanel2.setBackground(new java.awt.Color(199, 199, 226));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Chọn phép tính", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
         jPanel2.setForeground(new java.awt.Color(255, 51, 0));
 
-        jRadioButton1.setBackground(new java.awt.Color(204, 204, 255));
+        jRadioButton1.setBackground(new java.awt.Color(199, 199, 226));
         buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setFont(new java.awt.Font("Segoe UI Semilight", 1, 14)); // NOI18N
+        jRadioButton1.setFont(new java.awt.Font("Segoe UI Semilight", 1, 18)); // NOI18N
         jRadioButton1.setText("Phép Cộng");
+        jRadioButton1.setName(""); // NOI18N
 
-        jRadioButton2.setBackground(new java.awt.Color(204, 204, 255));
+        jRadioButton2.setBackground(new java.awt.Color(199, 199, 226));
         buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setFont(new java.awt.Font("Segoe UI Semilight", 1, 14)); // NOI18N
+        jRadioButton2.setFont(new java.awt.Font("Segoe UI Semilight", 1, 18)); // NOI18N
         jRadioButton2.setText("Phép Trừ");
 
-        jRadioButton3.setBackground(new java.awt.Color(204, 204, 255));
+        jRadioButton3.setBackground(new java.awt.Color(199, 199, 226));
         buttonGroup1.add(jRadioButton3);
-        jRadioButton3.setFont(new java.awt.Font("Segoe UI Semilight", 1, 14)); // NOI18N
+        jRadioButton3.setFont(new java.awt.Font("Segoe UI Semilight", 1, 18)); // NOI18N
         jRadioButton3.setText("Phép Nhân");
         jRadioButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -118,9 +172,9 @@ public class MainCalc extends javax.swing.JFrame {
             }
         });
 
-        jRadioButton4.setBackground(new java.awt.Color(204, 204, 255));
+        jRadioButton4.setBackground(new java.awt.Color(199, 199, 226));
         buttonGroup1.add(jRadioButton4);
-        jRadioButton4.setFont(new java.awt.Font("Segoe UI Semilight", 1, 14)); // NOI18N
+        jRadioButton4.setFont(new java.awt.Font("Segoe UI Semilight", 1, 18)); // NOI18N
         jRadioButton4.setText("Phép Chia");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -128,15 +182,15 @@ public class MainCalc extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addGap(37, 37, 37)
                 .addComponent(jRadioButton1)
-                .addGap(88, 88, 88)
+                .addGap(86, 86, 86)
                 .addComponent(jRadioButton2)
-                .addGap(106, 106, 106)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
                 .addComponent(jRadioButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                .addGap(83, 83, 83)
                 .addComponent(jRadioButton4)
-                .addGap(19, 19, 19))
+                .addGap(27, 27, 27))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,19 +209,20 @@ public class MainCalc extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(86, 86, 86)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3))
-                .addGap(93, 93, 93)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(27, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(86, 86, 86)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel3))
+                        .addGap(93, 93, 93)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -194,9 +249,23 @@ public class MainCalc extends javax.swing.JFrame {
         jButton4.setBackground(new java.awt.Color(204, 204, 204));
         jButton4.setForeground(new java.awt.Color(204, 204, 204));
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bigcalculator/img/ques1.png"))); // NOI18N
+        jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton4MouseClicked(evt);
+            }
+        });
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
+            }
+        });
+
+        refreshBtn.setFont(new java.awt.Font("Segoe UI Light", 1, 14)); // NOI18N
+        refreshBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bigcalculator/img/refresh.png"))); // NOI18N
+        refreshBtn.setText("Làm Mới");
+        refreshBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshBtnActionPerformed(evt);
             }
         });
 
@@ -205,24 +274,24 @@ public class MainCalc extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 17, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel2)
                         .addGap(306, 306, 306)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(calcBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(75, 75, 75)
-                        .addComponent(inputFileBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(inputDbBtn)
-                        .addGap(28, 28, 28)))
+                        .addComponent(calcBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(46, 46, 46)
+                        .addComponent(inputFileBtn)
+                        .addGap(40, 40, 40)
+                        .addComponent(inputDbBtn))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -234,12 +303,14 @@ public class MainCalc extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addGap(15, 15, 15)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(calcBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(inputFileBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(inputDbBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(inputDbBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(inputFileBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(calcBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(refreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
@@ -271,7 +342,7 @@ public class MainCalc extends javax.swing.JFrame {
             System.out.println(number1Txt.getText());
             System.out.println(number2Txt.getText());
         } catch(IOException ioException){
-            ioException.printStackTrace();
+            //ioException.printStackTrace();
         }
         
     }//GEN-LAST:event_inputFileBtnActionPerformed
@@ -279,6 +350,57 @@ public class MainCalc extends javax.swing.JFrame {
     private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jRadioButton3ActionPerformed
+
+    private void inputDbBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputDbBtnActionPerformed
+        // TODO add your handling code here:
+        DataForm datafrm = new DataForm(this);
+        this.setVisible(false);
+        datafrm.pack();
+        datafrm.setLocationRelativeTo(null);
+        datafrm.setVisible(true);
+        Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\DELL OS\\Desktop\\BigCalculator\\src\\bigcalculator\\img\\iconframe1.png");    
+        datafrm.setIconImage(icon);    
+        datafrm.setTitle("Data Form");
+    }//GEN-LAST:event_inputDbBtnActionPerformed
+
+    private void calcBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calcBtnActionPerformed
+        // TODO add your handling code here:
+        String str1 = number1Txt.getText();
+        String str2 = number2Txt.getText();
+        
+        if (str1.equals("") || str2.equals("")){
+            JFrame f=new JFrame();
+            JOptionPane.showMessageDialog(f,"Không được để trống !!!");  
+        } else {
+            char ope = buttonGroup1.getSelection().getActionCommand().toCharArray()[0];
+            this.calc = new Calculation();
+            this.calc.readCalc1(str1, str2, ope);
+            ResultForm rf = new ResultForm(this, this.calc);
+            rf.setVisible(true);
+            rf.pack();
+            rf.setLocationRelativeTo(null);
+            Image icon = Toolkit.getDefaultToolkit().getImage("C:\\Users\\DELL OS\\Desktop\\BigCalculator\\src\\bigcalculator\\img\\iconframe1.png");    
+            rf.setIconImage(icon);    
+            rf.setTitle("BigInteger Calculator");
+            this.setVisible(false);            
+        }
+    }//GEN-LAST:event_calcBtnActionPerformed
+
+    private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
+        // TODO add your handling code here:
+        number1Txt.setText("");
+        number2Txt.setText("");
+        jRadioButton1.setSelected(true);
+    }//GEN-LAST:event_refreshBtnActionPerformed
+
+    private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
+        JFrame f=new JFrame();
+        JOptionPane.showMessageDialog(f,"Bạn hãy nhập hai số nguyên lớn ở hai textArea và chọn phép tính để tính nhé ! Ta có thể nhập kể cả số âm nhé.\n"
+                + "1.Chọn 'Tính' để thực hiện phép tính (Không được nhập trống nhé!!!)\n"
+                + "2.Chọn 'Làm Mới' để làm mới 2 textArea và đưa lựa chọn phép toán về mặc định.\n"
+                + "3.Chọn 'Nhập File' để chọn file input nhập vào.\n"
+                + "4.Chọn 'Nhập từ Database' để chọn dữ liệu nhập vào từ cơ sở dữ liệu.");
+    }//GEN-LAST:event_jButton4MouseClicked
 
     /**
      * @param args the command line arguments
@@ -334,5 +456,6 @@ public class MainCalc extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea number1Txt;
     private javax.swing.JTextArea number2Txt;
+    private javax.swing.JButton refreshBtn;
     // End of variables declaration//GEN-END:variables
 }

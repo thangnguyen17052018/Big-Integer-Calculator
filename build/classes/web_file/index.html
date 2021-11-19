@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Big Calculator - Make by Thắng - B1805816</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <img src="background.png" width="100%" height="400px">
+    </header>
+
+    <div class="content">
+        <h1><strong>Vấn đề</strong> đặt ra</h1>
+        <p>     Trong các ngôn ngữ lập trình, khả năng lưu trữ của kiểu số nguyên thường có một giới 
+            hạn. Chẳng hạn như kiểu int trong C, kiểu int trong Java, …nhưng nhìn chung các kiểu này 
+            đều có miền giá trị hạn chế (-2147483648 đến +2147483647) nên khi có một ứng dụng trên 
+            số nguyên lớn (hàng chục, hàng trăm, hàng nghìn chữ số) thì kiểu số nguyên định sẵn không 
+            thể đáp ứng được, chẳng hạn như kiểu long trong <strong>Java</strong> cũng giới hạn ở mức -
+            9,223,372,036,854,775,808 đến 9,223,372,036,854,775,807. Trong trường hợp đó, người lập 
+            trình phải tìm một cấu trúc dữ liệu thích hợp để biểu diễn cho một số nguyên, vì chúng ta 
+            không thể lưu trữ các số nguyên lớn trong bất kỳ kiểu nguyên thủy nào, nên cách duy nhất là 
+            quản lý mỗi chữ số như một nút trong danh sách liên kết. Để thao tác được trên các số nguyên 
+            được biểu diễn bởi một cấu trúc mới, chúng ta phải xây dựng các phép toán cho số nguyên 
+            như phép cộng, trừ, nhân, chia. Trong trường hợp này chúng ta sẽ ứng dụng danh sách để lưu 
+            trữ và thao tác cộng, trừ, nhân, chia trên số nguyên lớn. Cụ thể hơn ta dùng <strong>danh sách liên 
+            kết</strong>.</p>
+        <p><strong>Danh sách liên kết</strong> là một cấu trúc dữ liệu bao gồm một nhóm các nút cùng đại diện 
+            cho một chuỗi. Dưới dạng đơn giản nhất, mỗi nút bao gồm một dữ liệu và một tham chiếu 
+            (nói cách khác, một liên kết) đến nút tiếp theo trong chuỗi nối tiếp. Cấu trúc này cho phép 
+            chèn hoặc loại bỏ các phần tử khỏi bất kỳ vị trí nào trong chuỗi một cách hiệu quả và linh 
+            hoạt hơn trong việc sử dụng bộ nhớ.</p>
+    </div>
+    <div class="content">
+        <h1>Cách tiếp cận -<strong> giải thuật</strong></h1>
+        <p>Thực hiện các giải thuật theo quy tắc <strong>cộng, trừ, nhân, chia</strong> hai số mà ta đã được
+            học ở tiểu học.</p>
+        <p>Chia số thành các chữ số trong một danh sách liên kết. Sử dụng các nguyên tắc
+            <strong><i>cộng trừ cơ bản đi từng chữ số, với số nhớ (carry)</i></strong> được thực hiện trong các hàm <strong>cộng</strong>
+            và <strong>trừ</strong>. Các hàm này sẽ được sử dụng để thực hiện các phép tính nhân và chia bằng
+            cách tiếp cận cơ bản là <strong><i>nhân chữ số cuối cùng với tất cả, sau đó chuyển và cộng hoặc
+                tìm bội số lớn gần nhất với số chia để chia cho số bị chia</i></strong>.</p>
+    </div>
+    <div class="content">
+        <h1>Chức năng</h1>
+        <p>Chương trình gồm <strong>4</strong> chức năng chính chủ yếu tương ứng với mỗi phép tính là một
+            chức năng.</p>
+        <p>Người dùng có thể thao tác như sau:</p>
+        <ul>
+            <li>Chọn phép tính (<strong>cộng, trừ, nhân, chia</strong>).</li>
+            <li>Nhập dữ liệu (<strong>hai số nguyên lớn</strong>). Chương trình sẽ hiển thị phương thức nhập
+                cho người dùng thực hiện (<strong>thủ công, file, từ cơ sở dữ liệu</strong>).</li>
+            <li>Sau khi nhập dữ liệu chương trình sẽ tính toán và đưa ra kết quả chính xác
+                cho người dùng. Ngoài xem kết quả, người dùng có thể xuất kết quả dưới dạng
+                file hoặc lưu vào cơ sở dữ liệu.</li>
+        </ul>
+    </div>
+</body>
+</html>   
